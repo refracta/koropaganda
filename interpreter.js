@@ -1,4 +1,5 @@
 const BodaCommand = require('./commands/boda_command');
+const EmploymentRateCommand = require('./commands/employment_rate_command');
 const DidCommand = require('./commands/did_command');
 
 class Interpreter {
@@ -6,8 +7,10 @@ class Interpreter {
     parameterStack = [];
     returnStack = [];
     dataStack = [];
+  
+    commands = [new BodaCommand(), new DidCommand(), new EmploymentRateCommand()];
     jumpDelta = 0;
-    commands = [new BodaCommand(), new DidCommand()];
+
 
     get stackList() {
         return [this.stdinStack, this.returnStack, this.dataStack, this.parameterStack];
