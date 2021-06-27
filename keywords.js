@@ -16,6 +16,8 @@ class Keywords {
     static UNIVERSITY = '대학';
     static GRADUATE_SCHOOL = '대학원';
     static SCHOOL_CATEGORY = [this.UNIVERSITY, this.GRADUATE_SCHOOL];
+
+    static JOSA_GA_CATEGORY = [Keywords.SKY_ENG, Keywords.KOREATECH_KOR_SHORT, Keywords.KOREATECH_KOR_LONG];
 }
 
 module.exports = Keywords;

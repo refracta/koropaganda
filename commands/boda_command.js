@@ -20,7 +20,6 @@ class BodaCommand extends Command {
             // {취업}보다 {기본}
             let companyIndex = Keywords.COMPANY_CATEGORY.findIndex(e => e === parameters[0]);
             if (interpreter.parameterStack.length - companyIndex - 2 < 0) {
-
                 throw new Error('Invalid index parameter.');
             }
             let returnData = interpreter.parameterStack[interpreter.parameterStack.length - companyIndex - 2] < interpreter.parameterStack[interpreter.parameterStack.length - companyIndex - 1] ? 1 : 0;
