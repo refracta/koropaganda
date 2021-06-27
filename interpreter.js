@@ -1,10 +1,11 @@
 const BodaCommand = require('./commands/boda_command');
+const EmploymentRateCommand = require('./commands/employment_rate_command');
 
 class Interpreter {
     parameterStack = [];
     returnStack = [];
     dataStack = [];
-    commands = [new BodaCommand()];
+    commands = [new BodaCommand(), new EmploymentRateCommand()];
 
     constructor(stdinHandler) {
         this.stdinHandler = stdinHandler;
