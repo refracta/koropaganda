@@ -51,7 +51,7 @@ class EmploymentRateCommand  extends Command {
         let univPart = !univIndex ? 1 : -1;
         let ZPart = Z ? Z / 100.0 : 1;
         let pushIndex = Math.ceil(Y * ZPart);
-        if (interpreter.parameterStack.length - 1 - pushIndex < 0)
+        if (interpreter.parameterStack.length - pushIndex < 0)
             throw new Error('Invalid index parameter.');
         let temp = interpreter.parameterStack.slice(-pushIndex).reduce((a, c) => a + c, 0);
         if (parameters[1])

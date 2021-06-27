@@ -7,13 +7,13 @@ class Interpreter {
     parameterStack = [];
     returnStack = [];
     dataStack = [];
-  
+
     commands = [new BodaCommand(), new DidCommand(), new EmploymentRateCommand()];
     jumpDelta = 0;
 
 
     get stackList() {
-        return [this.stdinStack, this.returnStack, this.dataStack, this.parameterStack];
+        return [this.stdinStack, this.parameterStack, this.dataStack, this.returnStack];
     }
 
     constructor(stdinHandler) {
@@ -29,6 +29,8 @@ class Interpreter {
             if (!command) {
                 throw new Error('Invalid command.');
             }
+            // console.log('<', i + '번째', currentCode, '>');
+            // console.log('PARAM:', JSON.stringify(this.parameterStack), 'RETURN:', JSON.stringify(this.returnStack), 'DATA:', JSON.stringify(this.dataStack))
             command.eval(this, currentCode, i, commandStack);
             if (this.jumpDelta !== 0) {
                 i += this.jumpDelta - 1;
