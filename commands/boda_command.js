@@ -2,13 +2,7 @@ import Command from '../command.js'
 import Keywords from '../keywords.js'
 
 // import error handlers.
-import EmptyStackError from "../errors/empty_stack_error.js";
 import IndexOutOfRangeError from "../errors/index_out_of_range_error.js";
-import InterpreterError from "../errors/interpreter_error.js";
-import InvalidCommandError from "../errors/invalid_command_error.js";
-import JosaError from '../errors/josa_error.js'
-import JumpOutOfRangeError from "../errors/jump_out_of_range_error.js";
-import StdOutHandlingError from "../errors/stdout_handling_error.js";
 import SyntaxError from "../errors/syntax_error.js";
 
 export default class BodaCommand extends Command {
