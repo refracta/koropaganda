@@ -11,60 +11,77 @@ class EmploymentRateCommand  extends Command {
         }
     }
 
-    getAJob(interpreter, parameters)
-    {
-        let companyIndex = Keywords.COMPANY_CATEGORY.findIndex(e => e === parameters[0]);
-        let Y = parseInt(parameters[2], 10);
-        let Z = parameters[3];
-        if (Y < 1)
-            throw new Error('Invalid place parameter.');
-        if ((Z != undefined) && (parseFloat(Z) % 1 === 0))
-            Z = parseInt(parseInt(Z) + '0');
-        else if ((Z != undefined) && (parseFloat(Z) % 1 != 0))
-            Z = parseInt(Z.replace('.', ''));
-        if ((Z != undefined) && ((Z < 0) || (Z > 1000)))
-            throw new Error('Invalid percent parameter.');
-        Z = Z ? (Z / 10) : Z;
+    getAJob (interpreter, parameters, companyIndex, placeLiteral, percentValue) {
+        let overwhelmingValue = parameters[1] ? Math.pow(companyIndex, placeLiteral) : (companyIndex * Y);
+        let pushValue = overwhelmingValue * percentValue;
 
-        let overPart = parameters[1] ? Math.pow(companyIndex, parseInt(parameters[2], 10)) : (companyIndex * Y);
-        let ZPart = Z ? Z / 100.0 : 1;
-
-        let result = Math.ceil(overPart * ZPart);
-        interpreter.parameterStack.push(result);
+        return {
+            pushStack: interpreter.parameterStack,
+            pushValue = pushValue
+        };
     }
 
-    univ(interpreter, parameters)
-    {
-        let univIndex = Keywords.SCHOOL_CATEGORY.findIndex(e => e === parameters[0]);
-        let Y = parseInt(parameters[2], 10);
-        let Z = parameters[3];
-        if (Y < 1)
-            throw new Error('Invalid place parameter.');
-        if ((Z != undefined) && (parseFloat(Z) % 1 === 0))
-            Z = parseInt(parseInt(Z) + '0');
-        else if ((Z != undefined) && (parseFloat(Z) % 1 != 0))
-            Z = parseInt(Z.replace('.', ''));
-        if ((Z != undefined) && ((Z < 0) || (Z > 1000)))
-            throw new Error('Invalid percent parameter.');
-        Z = Z ? (Z / 10) : Z;
-        
-        let univPart = !univIndex ? 1 : -1;
-        let ZPart = Z ? Z / 100.0 : 1;
-        let pushIndex = Math.ceil(Y * ZPart);
-        if (interpreter.parameterStack.length - pushIndex < 0)
-            throw new Error('Invalid index parameter.');
-        let temp = interpreter.parameterStack.slice(-pushIndex).reduce((a, c) => a + c, 0);
+    school (interpreter, parameters, schoolIndex, placeLiteral, percentValue) {
+        let schoolValue = !schoolIndex ? 1 : -1;
+        let sliceIndex = Math.ceil(placeLiteral * percentValue);
+
+        if (interpreter.parameterStack.length - sliceIndex < 0) {
+            // Index out of boundary exception.
+            throw new Error(`Invalid slice index value of ${sliceIndex}, slice index must be same or lesser than stack size of ${interpreter.parameterStack.length}.`);
+        }
+
+        let sumOfElements = interpreter.parameterStack.slice(-pushIndex).reduce((a, c) => a + c, 0);
+
+        let returnObj = {
+            pushStack: interpreter.returnStack,
+            pushValue: sumOfElements * schoolValue
+        };
         if (parameters[1])
-            interpreter.parameterStack.push(univPart * temp);
-        else
-            interpreter.returnStack.push(univPart * temp);
+            returnObj.pushStack = interpreter.parameterStack;
+
+        return returnObj;
     }
 
     eval(interpreter, currentCode, currentIndex, commandStack) {
         let parameters = this.parse(currentCode);
-        if (!parameters) {
+        if (!parameters)
             throw new Error('A required parameter is missing from the Employment rate command.');
-        } else if (Keywords.COMPANY_CATEGORY.includes(parameters[0])) {
+
+        let companyIndex = Keywords.COMPANY_CATEGORY.findIndex(e => e === parameters[0]);
+        let schoolIndex = Keywords.SCHOOL_CATEGORY.findIndex(e => e === parameters[0]);
+        let placeLiteral = parseInt(parameters[2], 10);
+        let percentLiteral = parameters[3];
+        if (percentLiteral !== undefined) {
+            if (Number.isInteger(parseInt(percentLiteral))) {
+                percentLiteral = parseInt(percentLiteral + '0');
+            } else {
+                percentLiteral = parseInt(percentLiteral.replace('.', ''));
+            }
+        }
+
+        // Input validity check and exception handling.
+        if (placeLiteral < 1) {
+            // Invalid place value exception.
+            throw new Error(`Invalid place value of '${placeLiiteral}', place vaule must be same or greater than 0.`);
+        }
+
+        let percentValue = 1;
+        if ((percentLiteral != undefined) && ((percentLiteral < 0) || (percentLiteral > 1000))) {
+            percentLiteral /= 10;
+
+            // Invalid percent value exception.
+            if (0 <= percentLiteral && percentLiteral <- 100) {
+                // Decimal place exception.
+                throw new Error(`Invalid percent value of '${percentLiteral}', the length of decimal places must be same or lesser than 1.`);
+            } else {
+                // Percent range exception.
+                throw new Error(`Invalid percent value of '${percentLiteral}', percent vaule must be between 0 and 100.`);
+            }
+
+            percentValue = percentLiteral / 100;
+        }
+
+        if (Keywords.COMPANY_CATEGORY.includes(parameters[0])) {
             // {취업}
             this.getAJob(interpreter, parameters);
         } else if (Keywords.SCHOOL_CATEGORY.includes(parameters[0])) {
