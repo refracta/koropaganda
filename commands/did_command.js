@@ -90,7 +90,7 @@ export default class DidCommand extends Command {
                     if (!interpreter.stdinHandler) {
                         throw new StdOutHandlingError(cuttentCode, currentLine);
                     } else {
-                        interpreter.stdinStack = interpreter.stdinHandler().split('').reverse().map(e => e.charCodeAt(0));
+                        interpreter.setStandardInputStack(interpreter.stdinHandler());
                     }
                 }
             }

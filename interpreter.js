@@ -24,7 +24,7 @@ export default class Interpreter {
         this.debugHandler = debugHandler;
     }
 
-    eval(code) {
+    async eval(code) {
         let commandStack = code.split('\n').map((code, line) => ({
             code,
             line: (line + 1)
@@ -38,7 +38,7 @@ export default class Interpreter {
             }
             command.eval(this, currentCode, i, commandStack, currentLine);
             if (this.debugHandler) {
-                this.debugHandler({
+                await this.debugHandler({
                     commandStack,
                     index: i,
                     code: currentCode,
@@ -55,6 +55,12 @@ export default class Interpreter {
                 this.jumpDelta = 0;
                 continue;
             }
+        }
+    }
+
+    setStandardInputStack(args) {
+        if (args) {
+            this.stdinStack = args.split('').reverse().map(e => e.charCodeAt(0));
         }
     }
 }
