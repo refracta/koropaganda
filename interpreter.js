@@ -22,7 +22,8 @@ class Interpreter {
 
     eval(code) {
         code = code.trim();
-        let commandStack = code.split('\n').filter(c => !c.match(/<(.*) 공시>/));
+        //let commandStack = code.split('\n').filter(c => !c.match(/<(.*) 공시>/));
+        let commandStack = code.split('\n').filter(c => !c.match(/(<(.*) 공시>)|(^\s*$)/));
         for (let i = 0; i < commandStack.length; i++) {
             let currentCode = commandStack[i];
             let command = this.commands.find(c => c.isMatchedCode(currentCode));
