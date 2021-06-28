@@ -1,8 +1,7 @@
-const Interpreter = require('../interpreter');
+import Interpreter from '../interpreter.js'
 
 let k = new Interpreter(_ => {
-}, _ => {
-});
+}, process.stdout.write.bind(process.stdout), process.stderr.write.bind(process.stderr), process.exit.bind(process));
 
 k.eval(`
 <주석 및 빈 줄 무시 공시>
@@ -21,7 +20,7 @@ k.eval(`
 `);
 
 console.log('\n<Logging Stacks>');
-console.log('Standard Input Stack:\t', k.stdinStack);
-console.log('Paraneter Stack:\t', k.parameterStack);
-console.log('Data Stack:\t\t', k.dataStack);
-console.log('Return Stack:\t\t', k.returnStack);
+console.log('Standard Input Stack:\t', k.publicCompanyStack);
+console.log('Parameter Stack:\t', k.smallCompanyStack);
+console.log('Data Stack:\t\t', k.midCompanyStack);
+console.log('Return Stack:\t\t', k.largeCompanyStack);

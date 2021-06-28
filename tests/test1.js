@@ -1,8 +1,7 @@
-const Interpreter = require('../interpreter');
+import Interpreter from '../interpreter.js'
 
 let k = new Interpreter(_ => {
-}, _ => {
-});
+}, process.stdout.write.bind(process.stdout), process.stderr.write.bind(process.stderr), process.exit.bind(process));
 
 k.eval(`
 SKY보다 KOREATECH
@@ -15,5 +14,5 @@ KOREATECH보다 SKY
 대학원 취업률 2위 50% 
 `);
 
-console.log(k.parameterStack);
-console.log(k.returnStack);
+console.log(k.smallCompanyStack);
+console.log(k.largeCompanyStack);
