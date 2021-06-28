@@ -55,9 +55,3 @@ KOREATECH이 SKY했다!
 대기업이 중소기업했다!
 한기대가 공기업했다!
 `);
-
-console.log();
-console.log(Interpreter.stdinStack);
-console.log(Interpreter.parameterStack);
-console.log(Interpreter.dataStack);
-console.log(Interpreter.returnStack);

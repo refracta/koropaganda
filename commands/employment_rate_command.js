@@ -12,12 +12,12 @@ class EmploymentRateCommand  extends Command {
     }
 
     getAJob (interpreter, parameters, companyIndex, placeLiteral, percentValue) {
-        let overwhelmingValue = parameters[1] ? Math.pow(companyIndex, placeLiteral) : (companyIndex * Y);
+        let overwhelmingValue = parameters[1] ? Math.pow(companyIndex, placeLiteral) : (companyIndex * placeLiteral);
         let pushValue = overwhelmingValue * percentValue;
 
         return {
             pushStack: interpreter.parameterStack,
-            pushValue = pushValue
+            pushValue: pushValue
         };
     }
 
@@ -30,7 +30,7 @@ class EmploymentRateCommand  extends Command {
             throw new Error(`Invalid slice index value of ${sliceIndex}, slice index must be same or lesser than stack size of ${interpreter.parameterStack.length}.`);
         }
 
-        let sumOfElements = interpreter.parameterStack.slice(-pushIndex).reduce((a, c) => a + c, 0);
+        let sumOfElements = interpreter.parameterStack.slice(-sliceIndex).reduce((a, c) => a + c, 0);
 
         let returnObj = {
             pushStack: interpreter.returnStack,
@@ -62,7 +62,7 @@ class EmploymentRateCommand  extends Command {
         // Input validity check and exception handling.
         if (placeLiteral < 1) {
             // Invalid place value exception.
-            throw new Error(`Invalid place value of '${placeLiiteral}', place vaule must be same or greater than 0.`);
+            throw new Error(`Invalid place value of '${placeLiteral}', place vaule must be same or greater than 0.`);
         }
 
         let percentValue = 1;
@@ -81,15 +81,18 @@ class EmploymentRateCommand  extends Command {
             percentValue = percentLiteral / 100;
         }
 
+        let pushObject;
         if (Keywords.COMPANY_CATEGORY.includes(parameters[0])) {
             // {취업}
-            this.getAJob(interpreter, parameters);
+            pushObject = this.getAJob(interpreter, parameters, companyIndex, placeLiteral, percentValue);
         } else if (Keywords.SCHOOL_CATEGORY.includes(parameters[0])) {
             // {대학}
-            this.univ(interpreter, parameters);
+            pushObject = this.school(interpreter, parameters, schoolIndex, placeLiteral, percentValue);
         } else {
-            throw new Error('Invalid use of Employment rate command.');
+            throw new Error(`Invalid use of Employment rate command of ${currentCode}.`);
         }
+
+        pushObject.pushStack.push(pushObject.pushValue);
     }
 }
 
