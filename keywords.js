@@ -1,4 +1,4 @@
-class Keywords {
+export default class Keywords {
     static SKY_ENG = 'SKY';
 
     static KOREATECH_ENG = 'KOREATECH';
@@ -19,5 +19,3 @@ class Keywords {
 
     static JOSA_GA_CATEGORY = [Keywords.SKY_ENG, Keywords.KOREATECH_KOR_SHORT, Keywords.KOREATECH_KOR_LONG];
 }
-
-module.exports = Keywords;

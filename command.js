@@ -1,4 +1,4 @@
-class Command {
+export default class Command {
     matchRegex;
 
     isMatchedCode(code) {
@@ -8,8 +8,6 @@ class Command {
     parse(currentCode) {
     }
 
-    eval(interpreter, currentCode, currentIndex, commandStack) {
+    eval(interpreter, currentCode, currentIndex, commandStack, currentLine) {
     }
 }
-
-module.exports = Command;

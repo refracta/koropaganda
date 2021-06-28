@@ -1,7 +1,7 @@
-const Command = require('../command');
-const Keywords = require('../keywords');
+import Command from '../command.js'
+import Keywords from '../keywords.js'
 
-class EmploymentRateCommand  extends Command {
+export default class EmploymentRateCommand  extends Command {
     matchRegex = /(.+) 취업률 (.* )?(.*)위\s?((.+)%)?/;
 
     parse(currentCode) {
@@ -16,7 +16,7 @@ class EmploymentRateCommand  extends Command {
         let pushValue = overwhelmingValue * percentValue;
 
         return {
-            pushStack: interpreter.parameterStack,
+            pushStack: interpreter.smallCompanyStack,
             pushValue: pushValue
         };
     }
@@ -25,28 +25,25 @@ class EmploymentRateCommand  extends Command {
         let schoolValue = !schoolIndex ? 1 : -1;
         let sliceIndex = Math.ceil(placeLiteral * percentValue);
 
-        if (interpreter.parameterStack.length - sliceIndex < 0) {
+        if (interpreter.smallCompanyStack.length - sliceIndex < 0) {
             // Index out of boundary exception.
-            throw new Error(`Invalid slice index value of ${sliceIndex}, slice index must be same or lesser than stack size of ${interpreter.parameterStack.length}.`);
+            throw new Error(`Invalid slice index value of ${sliceIndex}, slice index must be same or lesser than stack size of ${interpreter.smallCompanyStack.length}.`);
         }
 
-        let sumOfElements = interpreter.parameterStack.slice(-sliceIndex).reduce((a, c) => a + c, 0);
+        let sumOfElements = interpreter.smallCompanyStack.slice(-sliceIndex).reduce((a, c) => a + c, 0);
 
         let returnObj = {
-            pushStack: interpreter.returnStack,
+            pushStack: interpreter.largeCompanyStack,
             pushValue: sumOfElements * schoolValue
         };
         if (parameters[1])
-            returnObj.pushStack = interpreter.parameterStack;
+            returnObj.pushStack = interpreter.smallCompanyStack;
 
         return returnObj;
     }
 
-    eval(interpreter, currentCode, currentIndex, commandStack) {
+    eval(interpreter, currentCode, currentIndex, commandStack, currentLine) {
         let parameters = this.parse(currentCode);
-        if (!parameters)
-            throw new Error('A required parameter is missing from the Employment rate command.');
-
         let companyIndex = Keywords.COMPANY_CATEGORY.findIndex(e => e === parameters[0]);
         let schoolIndex = Keywords.SCHOOL_CATEGORY.findIndex(e => e === parameters[0]);
         let placeLiteral = parseInt(parameters[2], 10);
@@ -95,5 +92,3 @@ class EmploymentRateCommand  extends Command {
         pushObject.pushStack.push(pushObject.pushValue);
     }
 }
-
-module.exports = EmploymentRateCommand;
