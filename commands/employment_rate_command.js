@@ -1,6 +1,20 @@
 import Command from '../command.js'
 import Keywords from '../keywords.js'
 
+// import error handlers.
+import DecimalPrecisionError from "../errors/decimal_precision_error.js";
+import EmptyStackError from "../errors/empty_stack_error.js";
+import IndexOutOfRangeError from "../errors/index_out_of_range_error.js";
+import InterpreterError from "../errors/interpreter_error.js";
+import InvalidCommandError from "../errors/invalid_command_error.js";
+import JosaError from '../errors/josa_error.js'
+import JumpOutOfRangeError from "../errors/jump_out_of_range_error.js";
+import PercentOutOfRangeError from "../errors/percent_out_of_range_error.js";
+import PlaceOutOfRangeError from "../errors/place_out_of_range_error.js";
+import SliceOutOfRangeError from "../errors/slice_out_of_range_error.js";
+import StdOutHandlingError from "../errors/stdout_handling_error.js";
+import SyntaxError from "../errors/syntax_error.js";
+
 export default class EmploymentRateCommand  extends Command {
     matchRegex = /(.+) 취업률 (.* )?(.*)위\s?((.+)%)?/;
 
@@ -27,7 +41,7 @@ export default class EmploymentRateCommand  extends Command {
 
         if (interpreter.smallCompanyStack.length - sliceIndex < 0) {
             // Index out of boundary exception.
-            throw new Error(`Invalid slice index value of ${sliceIndex}, slice index must be same or lesser than stack size of ${interpreter.smallCompanyStack.length}.`);
+            throw new SliceOutOfRangeError(sliceIndex, interpreter.smallCompanyStack.length, currentCode, currentLine);
         }
 
         let sumOfElements = interpreter.smallCompanyStack.slice(-sliceIndex).reduce((a, c) => a + c, 0);
@@ -36,8 +50,9 @@ export default class EmploymentRateCommand  extends Command {
             pushStack: interpreter.largeCompanyStack,
             pushValue: sumOfElements * schoolValue
         };
-        if (parameters[1])
+        if (parameters[1]) {
             returnObj.pushStack = interpreter.smallCompanyStack;
+        }
 
         return returnObj;
     }
@@ -57,9 +72,9 @@ export default class EmploymentRateCommand  extends Command {
         }
 
         // Input validity check and exception handling.
-        if (placeLiteral < 1) {
+        if (!(0 <= placeLiteral && placeLiteral <= 2000)) {
             // Invalid place value exception.
-            throw new Error(`Invalid place value of '${placeLiteral}', place vaule must be same or greater than 0.`);
+            throw new PlaceOutOfRangeError(placeLiteral, curretnCode, currentLine);
         }
 
         let percentValue = 1;
@@ -69,10 +84,10 @@ export default class EmploymentRateCommand  extends Command {
             // Invalid percent value exception.
             if (0 <= percentLiteral && percentLiteral <- 100) {
                 // Decimal place exception.
-                throw new Error(`Invalid percent value of '${percentLiteral}', the length of decimal places must be same or lesser than 1.`);
+                throw new DecimalPrecisionError(percentLiteral, currentCode, currentLine);
             } else {
                 // Percent range exception.
-                throw new Error(`Invalid percent value of '${percentLiteral}', percent vaule must be between 0 and 100.`);
+                throw new PercentOutOfRangeError(percentLiteral, currentCode, currentLine);
             }
 
             percentValue = percentLiteral / 100;
@@ -86,7 +101,7 @@ export default class EmploymentRateCommand  extends Command {
             // {대학}
             pushObject = this.school(interpreter, parameters, schoolIndex, placeLiteral, percentValue);
         } else {
-            throw new Error(`Invalid use of Employment rate command of ${currentCode}.`);
+            throw new SyntaxError('Invalid useage of Employment rate command.', currentCode, currentLine);
         }
 
         pushObject.pushStack.push(pushObject.pushValue);

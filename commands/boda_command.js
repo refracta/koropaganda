@@ -1,6 +1,16 @@
 import Command from '../command.js'
 import Keywords from '../keywords.js'
 
+// import error handlers.
+import EmptyStackError from "../errors/empty_stack_error.js";
+import IndexOutOfRangeError from "../errors/index_out_of_range_error.js";
+import InterpreterError from "../errors/interpreter_error.js";
+import InvalidCommandError from "../errors/invalid_command_error.js";
+import JosaError from '../errors/josa_error.js'
+import JumpOutOfRangeError from "../errors/jump_out_of_range_error.js";
+import StdOutHandlingError from "../errors/stdout_handling_error.js";
+import SyntaxError from "../errors/syntax_error.js";
+
 export default class BodaCommand extends Command {
     matchRegex = /(.+)보다 (.+)/;
 
@@ -17,7 +27,7 @@ export default class BodaCommand extends Command {
             // {취업}보다 {기본}
             let companyIndex = Keywords.COMPANY_CATEGORY.findIndex(e => e === parameters[0]);
             if (interpreter.smallCompanyStack.length - companyIndex - 2 < 0) {
-                throw new Error('Invalid index parameter.');
+                throw new IndexOutOfRangeError(companyIndex, interpreter.commandStack.length, currentCode, currentLine);
             }
             let returnData = interpreter.smallCompanyStack[interpreter.smallCompanyStack.length - companyIndex - 2] < interpreter.smallCompanyStack[interpreter.smallCompanyStack.length - companyIndex - 1] ? 1 : 0;
             interpreter.largeCompanyStack.push(returnData);
@@ -35,7 +45,7 @@ export default class BodaCommand extends Command {
             // {SKY}보다 {SKY}
             interpreter.smallCompanyStack.push(0);
         } else {
-            throw new Error('Invalid use of Boda command.');
+            throw new SyntaxError('Invalid use of Boda command.', currentCode, currentLine);
         }
     }
 }
