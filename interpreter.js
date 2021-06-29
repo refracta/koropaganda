@@ -56,6 +56,7 @@ export default class Interpreter {
                 continue;
             }
         }
+        this.exitHandler(0);
     }
 
     setStandardInputStack(args) {
