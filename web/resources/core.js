@@ -17,11 +17,11 @@ let i = new Interpreter(window.alert,
         $('#stderr').text($('#stderr').text() + e);
     }, console.error, e => {
         $('#executed-command').text(`실행된 명령: \`${e.code}\``)
-        $('#next-command').text(`다음 명령: \`${e.commandStack[e.index + 1] ? e.commandStack[e.index + 1].code : '없음'}\``);
+        $('#next-command').text(`다음 명령: ${e.commandStack[e.index + 1] ? (`\`${e.commandStack[e.index + 1].code}\``) : '없음'}`);
         $('#command-index').text(`현재 명령 위치: ${e.index}`);
         $('#command-line-number').text(`현재 명령 줄 번호: ${e.line}`);
         $('#command-parameter').text(`매개변수: [${e.parameters.filter(e => e !== void 0).join(', ')}]`);
-        $('#stack').text(`공기업 스택: [${e.publicCompanyStack.join(', ')}]\n중소기업 스택: [${e.smallCompanyStack.join(', ')}]\n중견기업 스택: [${e.midCompanyStack.join(', ')}]\n대기업 스택: [${e.largeCompanyStack.join(', ')}]`);
+        $('#stack').text(`<스택>\n공기업　: [${e.publicCompanyStack.join(', ')}]\n중소기업: [${e.smallCompanyStack.join(', ')}]\n중견기업: [${e.midCompanyStack.join(', ')}]\n대기업　: [${e.largeCompanyStack.join(', ')}]`);
         return new Promise(async resolve => {
             clickResolve = resolve;
             if(executeMode){
@@ -43,8 +43,7 @@ $('#start').click(e => {
     $('#start').hide();
     $('#execute-panel').show();
 
-    i.eval(editor.getValue()).then(_ => {
-    }).catch(e => {
+    i.eval(editor.getValue()).catch(e => {
         $('#stderr').text($('#stderr').text() + '\n' + e);
     });
 });
