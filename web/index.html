@@ -1,0 +1,124 @@
+<html>
+<head>
+    <title>Koropaganda Interpreter</title>
+    <link rel="stylesheet" href="./resources/style.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-monokai.min.js" type="text/javascript" charset="utf-8"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="resources/mode-koropaganda.js" type="text/javascript" charset="utf-8"></script>
+    <script src="resources/jquery-3.6.0.min.js" type="text/javascript" charset="utf-8"></script>
+    <script defer type="module" src="./resources/core.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row h-100">
+        <div class="col">
+            <div id="editor" class="split left">중소기업 취업률 72위
+중소기업이 중견기업했다!
+중소기업 취업률 67위
+중소기업이 중견기업했다!
+중소기업 취업률 69위
+중소기업이 중견기업했다!
+중소기업 취업률 84위
+중소기업이 중견기업했다!
+중소기업 취업률 65위
+중소기업이 중견기업했다!
+중소기업 취업률 69위
+중소기업이 중견기업했다!
+중소기업 취업률 82위
+중소기업이 중견기업했다!
+중소기업 취업률 79위
+중소기업이 중견기업했다!
+중소기업 취업률 75위
+중소기업이 중견기업했다!
+중소기업 취업률 32위
+중소기업이 중견기업했다!
+
+중견기업 취업률 압도적 17위 34.9%
+중소기업 취업률 51위
+대학 취업률 2위
+중소기업이 한기대했다!
+중소기업이 한기대했다!
+대기업이 중견기업했다!
+
+중견기업 취업률 압도적 17위 36.9%
+중소기업 취업률 6위
+대학 취업률 2위
+중소기업이 한기대했다!
+중소기업이 한기대했다!
+대기업이 중견기업했다!
+
+중소기업 취업률 89위
+중소기업이 중견기업했다!
+중소기업 취업률 75위
+중소기업이 중견기업했다!
+중소기업 취업률 83위
+중소기업이 중견기업했다!
+한기대보다 한기대
+중소기업 취업률 14위
+KOREATECH보다 KOREATECH
+KOREATECH보다 KOREATECH
+중소기업이 한기대했다!
+중소기업이 한기대했다!
+공기업보다 한기대
+KOREATECH이 SKY했다!
+한기대보다 SKY
+대학 취업률 2위
+중소기업이 한기대했다!
+중소기업이 한기대했다!
+대기업이 중소기업했다!
+대기업이 중소기업했다!
+중소기업 취업률 14위
+대학원 취업률 1위
+중소기업이 한기대했다!
+대기업이 중소기업했다!
+한기대가 공기업했다!</div>
+        </div>
+        <div class="col">
+            <div class="split right h-100" style="padding: 0">
+                <textarea id="stdin" placeholder="입력" class="form-control" rows="2"></textarea>
+                <button id="start" type="button" class="btn btn-primary">시작</button>
+                <div id="execute-panel" style="display:none;">
+                    <div>
+                        <button id="next" type="button" class="btn btn-secondary">다음</button>
+                        <button id="execute" type="button" class="btn btn-secondary">실행</button>
+                        <button id="init" type="button" class="btn btn-danger">초기화</button>
+                    </div>
+                    <div>
+                        <span id="executed-command">실행된 명령: </span>
+                    </div>
+                    <div>
+                        <span id="next-command">다음 명령: </span>
+                    </div>
+                    <div>
+                        <span id="command-index">현재 명령 위치: </span>
+                    </div>
+                    <div>
+                        <span id="command-line-number">현재 명령 줄 번호: </span>
+                    </div>
+                    <div>
+                        <span id="command-parameter">매개변수: </span>
+                    </div>
+                    </br>
+                    <div>
+                        <span id="stack" style="white-space:pre-line;">스택</span>
+                    </div>
+                    <div>
+                        <span id="stdout" style="white-space:pre-line;">표준출력: </span>
+                    </div>
+                    <div>
+                        <span id="stderr" style="white-space:pre-line;">표준에러: </span>
+                    </div>
+                    </br>
+                    <div>
+                        <span id="exit-code" style="white-space:pre-line;">종료코드: </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
