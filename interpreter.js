@@ -26,7 +26,7 @@ export default class Interpreter {
 
     async eval(code) {
         let commandStack = code.split('\n').map((code, line) => ({
-            code,
+            code: code.trim(),
             line: (line + 1)
         })).filter(c => !c.code.match(/(<(.*) 공시>)|(^\s*$)/));
         for (let i = 0; i < commandStack.length; i++) {
@@ -34,21 +34,26 @@ export default class Interpreter {
             let currentLine = commandStack[i].line;
             let command = this.commands.find(c => c.isMatchedCode(currentCode));
             if (!command) {
-                throw new InvalidCommandError('Invalid command.', currentCode, currentLine);
+                throw new InvalidCommandError(currentCode, currentLine);
             }
             command.eval(this, currentCode, i, commandStack, currentLine);
             if (this.debugHandler) {
-                await this.debugHandler({
-                    commandStack,
-                    index: i,
-                    code: currentCode,
-                    line: currentLine,
-                    parameters: command.parse(currentCode),
-                    publicCompanyStack: this.publicCompanyStack,
-                    smallCompanyStack: this.smallCompanyStack,
-                    midCompanyStack: this.midCompanyStack,
-                    largeCompanyStack: this.largeCompanyStack
-                });
+                try {
+                    await this.debugHandler({
+                        commandStack,
+                        index: i,
+                        code: currentCode,
+                        line: currentLine,
+                        parameters: command.parse(currentCode),
+                        publicCompanyStack: this.publicCompanyStack,
+                        smallCompanyStack: this.smallCompanyStack,
+                        midCompanyStack: this.midCompanyStack,
+                        largeCompanyStack: this.largeCompanyStack,
+                        jumpDelta: this.jumpDelta
+                    });
+                } catch (e){
+                    throw e;
+                }
             }
             if (this.jumpDelta !== 0) {
                 i += this.jumpDelta - 1;
