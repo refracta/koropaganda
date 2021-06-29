@@ -30,7 +30,7 @@ let iter = 0;
 while (value > 0)
 {
 	// print exp and percent part.
-	console.log(`중소기업 취업률 압도적 ${temp[1]}위 ${temp[2]}%`);
+	console.log(`대기업 취업률 압도적 ${temp[1]}위 ${temp[2]}%`);
 
 	// iter update.
 	target = target - value;
