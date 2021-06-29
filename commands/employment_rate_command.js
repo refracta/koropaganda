@@ -8,18 +8,18 @@ import SliceOutOfRangeError from "../errors/slice_out_of_range_error.js";
 import SyntaxError from "../errors/syntax_error.js";
 
 export default class EmploymentRateCommand  extends Command {
-    matchRegex = /(.+) 취업률 (.* )?(.*)위\s?((.+)%)?/;
+    matchRegex = /(.+) 취업률 ((.*) )?(.*)위\s?((.+)%)?/;
 
     parse(currentCode) {
         let matchResult = currentCode.match(this.matchRegex);
         if (matchResult) {
-            return [matchResult[1], matchResult[2], matchResult[3], matchResult[5]];
+            return [matchResult[1], matchResult[3], matchResult[4], matchResult[6]];
         }
     }
 
     getAJob (interpreter, parameters, companyIndex, placeLiteral, percentValue) {
         let overwhelmingValue = parameters[1] ? Math.pow(companyIndex, placeLiteral) : (companyIndex * placeLiteral);
-        let pushValue = Math.ceil(overwhelmingValue * percentValue / 100);
+        let pushValue = Math.ceil(overwhelmingValue * percentValue);
 
         return {
             pushStack: interpreter.smallCompanyStack,
@@ -29,7 +29,7 @@ export default class EmploymentRateCommand  extends Command {
 
     school (interpreter, parameters, schoolIndex, placeLiteral, percentValue, commandInfo) {
         let schoolValue = !schoolIndex ? 1 : -1;
-        let sliceIndex = Math.ceil(placeLiteral * percentValue / 100);
+        let sliceIndex = Math.ceil(placeLiteral * percentValue);
 
         if (interpreter.smallCompanyStack.length - sliceIndex < 0) {
             // Index out of boundary exception.
@@ -77,6 +77,8 @@ export default class EmploymentRateCommand  extends Command {
                 throw new PercentOutOfRangeError(percentValue, currentCode, currentLine);
             }
         }
+
+        percentValue = percentValue === 1 ? 1 : percentValue / 100;
 
         let pushObject;
         if (Keywords.COMPANY_CATEGORY.includes(parameters[0])) {
