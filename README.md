@@ -1,4 +1,4 @@
-# Koropaganda v0.0.1
+# Koropaganda v0.1.3
 Koropaganda는 한국기술교육대학교의 학교 홍보 문구에서 영감을 받아 만들어진 난해한 프로그래밍 언어입니다.
 
 ![](https://user-images.githubusercontent.com/58779799/123730054-dc8da680-d8d0-11eb-83da-32d6e4ba4f27.jpg)
