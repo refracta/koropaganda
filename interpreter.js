@@ -60,7 +60,7 @@ export default class Interpreter {
 
     setStandardInputStack(args) {
         if (args) {
-            this.stdinStack = args.split('').reverse().map(e => e.charCodeAt(0));
+            this.publicCompanyStack = args.split('').reverse().map(e => e.charCodeAt(0));
         }
     }
 }
