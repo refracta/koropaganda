@@ -26,6 +26,7 @@ function getApproximation(target)
 // initial values.
 let temp = getApproximation(target);
 let value = temp[0];
+let iter = 0;
 while (value > 0)
 {
 	// print exp and percent part.
@@ -35,9 +36,12 @@ while (value > 0)
 	target = target - value;
 	temp = getApproximation(target);
 	value = temp[0];
+
+	iter++;
 }
 
 // print rest part.
-console.log('중소기업이 한기대했다!');
-console.log('중소기업이 한기대했다!');
+console.log(`대학 취업률 ${iter}위`);
+for (let i = 0; i < iter; i++)
+	console.log('중소기업이 한기대했다!');
 console.log('대기업이 중견기업했다!');
