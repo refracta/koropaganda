@@ -50,6 +50,10 @@ $('#execute').click(e => {
 });
 
 $('#init').click(e => {
+    executeMode = false;
+    i.clean();
+    $('#stdout').text('표준출력: ');
+    $('#stderr').text('표준에러: ');
     $('#stdin').show();
     $('#start').show();
     $('#execute-panel').hide();

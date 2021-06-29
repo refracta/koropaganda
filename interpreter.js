@@ -64,4 +64,11 @@ export default class Interpreter {
             this.publicCompanyStack = args.split('').reverse().map(e => e.charCodeAt(0));
         }
     }
+
+    clean(){
+        this.publicCompanyStack = [];
+        this.smallCompanyStack = [];
+        this.midCompanyStack = [];
+        this.largeCompanyStack = [];
+    }
 }
