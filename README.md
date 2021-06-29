@@ -104,7 +104,7 @@ SKY보다 KOREATECH
 ```
 표준 출력을 통해 'A'가 출력됩니다.
 
-- `SKY`가 `KOREATECH`했다!
+### `SKY`가 `KOREATECH`했다!
 표준 에러로 `중견기업` 스택의 마지막 요소를 꺼내어 유니코드 문자로 출력합니다. 출력된 요소는 `중견기업` 스택에서 삭제됩니다.
 
 `중견기업` 스택이 [ 97 ]일 때의 사용 예:
@@ -204,7 +204,7 @@ KOREATECH이 SKY했다!
 한기대가 공기업했다!
 ```
 
-### 기타
+## 기타
  - Koropaganda Interpreter: [https://refracta.github.io/koropaganda/web/](https://refracta.github.io/koropaganda/web/)
 
 ## Contributor
