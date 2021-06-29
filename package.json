@@ -1,0 +1,12 @@
+{
+  "name": "Koropaganda Language Interpreter",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "scripts": {
+  },
+  "type": "module",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
