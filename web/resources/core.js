@@ -3,6 +3,7 @@ editor.setTheme("ace/theme/monokai");
 editor.session.setMode("ace/mode/koropaganda");
 
 import Interpreter from "../../interpreter.js";
+
 let clickResolve;
 let executeMode = false;
 let i = new Interpreter(_ => {

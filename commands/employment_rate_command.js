@@ -7,7 +7,7 @@ import PlaceOutOfRangeError from "../errors/place_out_of_range_error.js";
 import SliceOutOfRangeError from "../errors/slice_out_of_range_error.js";
 import SyntaxError from "../errors/syntax_error.js";
 
-export default class EmploymentRateCommand  extends Command {
+export default class EmploymentRateCommand extends Command {
     matchRegex = /(.+) 취업률 ((.*) )?(.*)위\s?((.+)%)?/;
 
     parse(currentCode) {
@@ -17,7 +17,7 @@ export default class EmploymentRateCommand  extends Command {
         }
     }
 
-    getAJob (interpreter, parameters, companyIndex, placeLiteral, percentValue) {
+    getAJob(interpreter, parameters, companyIndex, placeLiteral, percentValue) {
         let overwhelmingValue = parameters[1] ? Math.pow(companyIndex, placeLiteral) : (companyIndex * placeLiteral);
         let pushValue = Math.ceil(overwhelmingValue * percentValue);
 
@@ -27,7 +27,7 @@ export default class EmploymentRateCommand  extends Command {
         };
     }
 
-    school (interpreter, parameters, schoolIndex, placeLiteral, percentValue, commandInfo) {
+    school(interpreter, parameters, schoolIndex, placeLiteral, percentValue, commandInfo) {
         let schoolValue = !schoolIndex ? 1 : -1;
         let sliceIndex = Math.ceil(placeLiteral * percentValue);
 
@@ -86,7 +86,10 @@ export default class EmploymentRateCommand  extends Command {
             pushObject = this.getAJob(interpreter, parameters, companyIndex, placeLiteral, percentValue);
         } else if (Keywords.SCHOOL_CATEGORY.includes(parameters[0])) {
             // {대학}
-            pushObject = this.school(interpreter, parameters, schoolIndex, placeLiteral, percentValue, { currentCode, currentLine });
+            pushObject = this.school(interpreter, parameters, schoolIndex, placeLiteral, percentValue, {
+                currentCode,
+                currentLine
+            });
         } else {
             throw new SyntaxError('Invalid useage of Employment rate command.', currentCode, currentLine);
         }

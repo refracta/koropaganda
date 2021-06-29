@@ -12,16 +12,16 @@ export default class Interpreter {
     commands = [new BodaCommand(), new DidCommand(), new EmploymentRateCommand()];
     jumpDelta = 0;
 
-    get stackList() {
-        return [this.publicCompanyStack, this.smallCompanyStack, this.midCompanyStack, this.largeCompanyStack];
-    }
-
     constructor(stdinHandler, stdoutHandler, stderrHandler, exitHandler, debugHandler) {
         this.stdinHandler = stdinHandler;
         this.stdoutHandler = stdoutHandler;
         this.stderrHandler = stderrHandler;
         this.exitHandler = exitHandler;
         this.debugHandler = debugHandler;
+    }
+
+    get stackList() {
+        return [this.publicCompanyStack, this.smallCompanyStack, this.midCompanyStack, this.largeCompanyStack];
     }
 
     async eval(code) {
@@ -61,11 +61,11 @@ export default class Interpreter {
 
     setStandardInputStack(args) {
         if (args) {
-            this.publicCompanyStack = args.split('').reverse().map(e => e.charCodeAt(0));
+            this.publicCompanyStack = args.split('').map(e => e.charCodeAt(0));
         }
     }
 
-    clean(){
+    clean() {
         this.publicCompanyStack = [];
         this.smallCompanyStack = [];
         this.midCompanyStack = [];
