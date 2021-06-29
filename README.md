@@ -137,7 +137,7 @@ SKY가 한기대했다!
 첫번째 `취업` 스택의 가장 마지막 요소를 꺼내서 두번째 `취업` 스택에 넣습니다.
 
 ## 예시
-### SKY보다 KOREATECH
+### SKY보다 KOREATECH (examples/sky_boda_koreatech.kp)
 ```
 중소기업 취업률 72위
 중소기업이 중견기업했다!
